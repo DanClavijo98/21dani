@@ -1,0 +1,102 @@
+/* Rollo fotográfico vertical. Las fotos son locales y se pueden reemplazar
+   por img/foto1.jpg, img/foto2.jpg e img/foto3.jpg. */
+.filmstrip {
+  --film-width: clamp(170px, 18vw, 260px);
+  position: fixed;
+  inset: 0 auto 0 0;
+  z-index: 40;
+  width: var(--film-width);
+  padding: 2.5rem 1.35rem;
+  background: #090807;
+  box-shadow: 0.5rem 0 2rem rgba(0, 0, 0, 0.45);
+  transform: translateX(-110%);
+  opacity: 0;
+  transition: transform 1.4s ease, opacity 1.4s ease;
+  pointer-events: none;
+}
+
+.filmstrip--visible {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.filmstrip::before,
+.filmstrip::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 0.72rem;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    #b9b5a6 0 0.6rem,
+    transparent 0.6rem 1.5rem
+  );
+  background-size: 100% 1.5rem;
+  opacity: 0.85;
+}
+
+.filmstrip::before { left: 0.28rem; }
+.filmstrip::after { right: 0.28rem; }
+
+.filmstrip__content {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(0.7rem, 2vh, 1.3rem);
+}
+
+.filmstrip__frame {
+  margin: 0;
+  padding: 0.45rem;
+  background: #f6f0d7;
+  box-shadow: 0 0 0.8rem rgba(255, 204, 48, 0.15);
+}
+
+.filmstrip__frame img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  background: #29231b;
+}
+
+.filmstrip__message {
+  margin: 0.25rem 0 0;
+  color: #fddd25;
+  font: 600 clamp(0.68rem, 1vw, 0.9rem) / 1.35 Arial, sans-serif;
+  text-align: center;
+  text-shadow: 0 0 0.65rem rgba(253, 221, 37, 0.45);
+}
+
+@media only screen and (max-width: 600px) {
+  .filmstrip {
+    inset: auto 0 0;
+    width: 100%;
+    height: 8.5rem;
+    padding: 0.7rem 1.1rem;
+    transform: translateY(110%);
+  }
+
+  .filmstrip--visible { transform: translateY(0); }
+
+  .filmstrip__content {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+  }
+
+  .filmstrip__frame {
+    width: 24%;
+    padding: 0.22rem;
+  }
+
+  .filmstrip__message {
+    width: 22%;
+    font-size: 0.62rem;
+  }
+}
